@@ -15,7 +15,7 @@ int main(void)
 
 	if (n > 0)
 	{
-		printf("%d is positie\n", n);
+		printf("%d is positive\n", n);
 	}
 	else if (n == 0)
 	{
@@ -23,7 +23,7 @@ int main(void)
 	}
 	else
 	{
-		printf("%d is negativd\n", n);
+		printf("%d is negative\n", n);
 	}
 
 	return (0);
