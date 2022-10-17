@@ -5,7 +5,7 @@
  *
  * Return: Always 0
  */
-jnt main(void)
+int main(void)
 {
 	int m, n;
 
