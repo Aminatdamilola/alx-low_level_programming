@@ -2,65 +2,76 @@
 
 /**
  * exponential_search - searches for a value in a sorted array
- * of integers using the Exponential search algorithm
+ * of integers using the exponential search algorithm
  * @array: array to search in
  * @size: number of elements in array
- * @value: Value to search for
- * Return: -1, the index of the found value
+ * @value: value to search for
+ * Return: the index of the value found value, or -1/not found
  **/
 int exponential_search(int *array, size_t size, int value)
 {
-	if (array == NULL || size == 0)
-	{
+	size_t start, end, y;
+
+	if (!array || size == 0)
 		return (-1);
-	}
-	if (array[0] == value)
+
+	end = 1;
+	start = 1;
+	while (end < size)
 	{
-		printf("Found value %d at index 0\n", value);
-		return (0);
+		if (value < array[end])
+			break;
+		printf("Value checked array[%lu] = [%d]\n", end, array[end]);
+		start = end;
+		end = end * 2;
 	}
-	int i = 1;
-
-	while (i < size && array[i] <= value)
-	{
-		printf("Checked value %d at index %d\n", array[i], i);
-		i *= 2;
-	}
-	int left = i / 2;
-
-	int right = fmin(i, size - 1);
-
-	printf("Using binary search on array[%d..%d]\n", left, right);
-	return (binary_search(array, left, right, value));
+	y = end < size - 1 ? end : size - 1;
+	printf("Value found between indexes [%lu] and [%lu]\n", start, y);
+	return (binary_helper(array, value, end / 2, y));
 }
 
 /**
- * binary_search - searches for a value in a array
+ * binary_helper - searches for a value in an array of using recursion
  * @array: array to search in
- * @value: value to look for
- * @left: index of the left bound
- * @right: index of the right
- * Return: -1, index of the value found
+ * @value: value to search for
+ * @lo: index of the low bound
+ * @hi: index of the high bound
+ * Return: the index of the value found, or -1 if not found
  **/
-int binary_search(int *array, int left, int right, int value)
+int binary_helper(int *array, int value, size_t lo, size_t hi)
 {
-	while (left <= right)
-	{
-		int mid = left + (right - left) / 2;
+	size_t mid;
 
-		printf("Split array[%d..%d] at index %d\n", left, right, mid);
-		if (array[mid] == value)
-		{
-			printf("Found value %d at index %d\n", value, mid);
-			return (mid);
-		} else if (array[mid] < value)
-		{
-			left = mid + 1;
-		} else
-		{
-			right = mid - 1;
-		}
-	}
-	printf("Value %d not found in array\n", value);
+	print_array(array, lo, hi);
+	if (hi == lo && array[lo] != value)
+		return (-1);
+
+	mid = ((hi - lo) / 2) + lo;
+	if (array[mid] == value)
+		return (mid);
+	if (array[mid] > value)
+		return (binary_helper(array, value, lo, mid - 1));
+	if (array[mid] < value)
+		return (binary_helper(array, value, mid + 1, hi));
 	return (-1);
+}
+
+/**
+ * print_array - prints an array
+ * @array: array to print
+ * @lo: index of the low bound
+ * @hi: index of the high bound
+ **/
+void print_array(int *array, size_t lo, size_t hi)
+{
+	size_t i;
+
+	printf("Searching in array: ");
+	for (i = lo; i <= hi; i++)
+	{
+		printf("%d", array[i]);
+		if (i < hi)
+			printf(", ");
+	}
+	printf("\n");
 }
