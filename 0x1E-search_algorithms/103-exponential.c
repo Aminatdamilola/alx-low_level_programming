@@ -10,7 +10,7 @@
  **/
 int exponential_search(int *array, size_t size, int value)
 {
-	size_t start, end, y;
+	size_t start, end, x;
 
 	if (!array || size == 0)
 		return (-1);
@@ -25,9 +25,9 @@ int exponential_search(int *array, size_t size, int value)
 		start = end;
 		end = end * 2;
 	}
-	y = end < size - 1 ? end : size - 1;
-	printf("Value found between indexes [%lu] and [%lu]\n", start, y);
-	return (binary_helper(array, value, end / 2, y));
+	x = end < size - 1 ? end : size - 1;
+	printf("Value found between indexes [%lu] and [%lu]\n", start, x);
+	return (binary_helper(array, value, end / 2, x));
 }
 
 /**
